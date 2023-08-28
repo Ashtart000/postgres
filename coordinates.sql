@@ -11,3 +11,5 @@ INSERT INTO coordinates VALUES
     ;
 
 INSERT INTO coordinates VALUES(1, 2);
+
+DROP TABLE coordinates;
