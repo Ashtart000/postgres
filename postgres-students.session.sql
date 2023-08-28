@@ -13,8 +13,10 @@ CREATE TABLE users(
 DROP TABLE users;
 
 INSERT INTO users VALUES
-    ('','Doe','johndoe@gmail.com','some text about myself.......','male',true,'1984-01-15',44,1.85),
+    ('John','Doe','johndoe@gmail.com','some text about myself.......','male',true,'1984-01-15',44,1.85),
     ('Jane','Doe','janedoe@gmail.com','biography','female',false,'1985-03-25',38,1.64),
     ('Petr','Doe','petrdoe@gmail.com','.........','male',false,NULL,NULL,NULL),
-    ('Clark','Doe','clarkdoe@gmail.com','.........','male',true,'2024-01-08',45,1.9)
+    ('Clark','Doe','clarkdoe@gmail.com','.........','male',true,'1975-01-08',45,1.9)
     ;
+
+ALTER TABLE users ADD COLUMN id serial PRIMARY KEY;
