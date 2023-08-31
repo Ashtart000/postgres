@@ -45,3 +45,5 @@ VALUES (
     ) RETURNING first_name;
 
 UPDATE users SET height = 1.56 WHERE first_name = 'Tanya';
+
+DELETE FROM users WHERE id > 11;
