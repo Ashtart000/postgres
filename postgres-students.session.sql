@@ -47,3 +47,10 @@ VALUES (
 UPDATE users SET height = 1.56 WHERE first_name = 'Tanya';
 
 DELETE FROM users WHERE id > 11;
+
+DROP TABLE messages, chats, chats_to_users;
+DROP TABLE citizens, contents, reactions;
+
+DELETE FROM orders_to_products;
+DELETE FROM products;
+DELETE FROM orders;
