@@ -20,3 +20,28 @@ INSERT INTO users VALUES
     ;
 
 ALTER TABLE users ADD COLUMN id serial PRIMARY KEY;
+
+INSERT INTO users (
+    first_name,
+    last_name,
+    email,
+    biography,
+    gender,
+    is_subscribe,
+    birthday,
+    foot_size,
+    height
+  )
+VALUES (
+    'Tanya',
+    'Doe',
+    'tanya@gmail.com',
+    'biography:text',
+    'female',
+    true,
+    '2009-12-26',
+    38,
+    1.58
+    ) RETURNING first_name;
+
+UPDATE users SET height = 1.56 WHERE first_name = 'Tanya';
