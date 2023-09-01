@@ -2,6 +2,12 @@ class Product {
     static _client;
     static _tableName;
 
+    static async findAll() {
+        return await this._client.query(`
+        SELECT * FROM ${this._tableName}
+        `)
+    }
+
     static async bulkCreate(productsArray) {
         const valuesString = productsArray.map(
             ({brand, model, price, quantity = 1}) => 
