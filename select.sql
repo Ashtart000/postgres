@@ -47,3 +47,12 @@ height AS "Зріст",
 id AS "Особистий номер"
 FROM users;
 
+
+-- ПАГІНАЦІЯ
+
+SELECT * FROM users 
+LIMIT 10 
+OFFSET 20;
+
+-- OFFSET = LIMIT * (page-1)
+
