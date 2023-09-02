@@ -56,3 +56,26 @@ OFFSET 20;
 
 -- OFFSET = LIMIT * (page-1)
 
+
+-- ПІДЗАПИТИ
+
+SELECT id, first_name || ' ' || last_name AS "full name", email, gender FROM users;
+
+SELECT id, concat(first_name, ' ', last_name) AS "full name", email, gender FROM users;
+
+-- варіант 1
+SELECT 
+id, 
+concat(first_name, ' ', last_name) AS "full name", 
+char_length(concat(first_name, ' ', last_name)) AS "full name length",
+email, 
+gender 
+FROM users
+WHERE char_length(concat(first_name, ' ', last_name)) > 20;
+
+-- варіант 2
+
+SELECT * FROM (
+    SELECT id, concat(first_name, ' ', last_name) AS "full name", email, gender FROM users
+) AS "FN"
+WHERE char_length("FN"."full name") > 20;
