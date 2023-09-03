@@ -60,7 +60,7 @@ SELECT avg(price) FROM products;
 SELECT brand, avg(price) FROM products GROUP BY brand;
 
 -- 5
-SELECT sum(price) FROM products WHERE price BETWEEN 1000 AND 2000;
+SELECT sum(quantity * price) FROM products WHERE price BETWEEN 1000 AND 2000;
 
 -- 6
 SELECT brand, count(brand) FROM products GROUP BY brand;
@@ -70,3 +70,29 @@ SELECT customer_id, count(customer_id) FROM orders GROUP BY customer_id;
 
 --8 
 SELECT avg(price) FROM products WHERE brand = 'Huawei';
+
+
+-- ORDER BY - сортує дані в таблиці за якимсь стовпцем
+-- ORDER BY може приймати стовпець таблиці, за яким потрібно проводити сортування
+-- Крім того, може приймати 2 налаштування:
+-- ASC - за збільшенням (за замовчуванням)
+-- DESC - за зменшенням
+
+SELECT concat(first_name, ' ', last_name) AS "full name" FROM users
+ORDER BY "full name" DESC;
+
+
+SELECT id, first_name, last_name, birthday, extract("years" from age(birthday)) AS age 
+FROM users
+ORDER BY age;
+
+SELECT * FROM products
+ORDER BY price DESC;
+
+SELECT product_id, sum(quantity) AS total
+FROM orders_to_products
+GROUP BY product_id
+ORDER BY total DESC
+LIMIT 10;
+
+SELECT * FROM products WHERE id = 70;
