@@ -96,3 +96,24 @@ ORDER BY total DESC
 LIMIT 10;
 
 SELECT * FROM products WHERE id = 70;
+
+
+
+-- ФІЛЬТРАЦІЯ ПО ГРУПАМ
+SELECT extract("years" from age(birthday)) AS "вікова група", count(*) AS "кількість в групі"
+FROM users
+GROUP BY "вікова група"
+HAVING count(*) >= 6
+ORDER BY "кількість в групі", "вікова група";
+
+-- витягти всі бренди у якіх кількість телефонів більше 1000
+SELECT brand, sum(quantity) FROM products
+GROUP BY brand
+HAVING sum(quantity) > 1000
+;
+
+-- витягти всі бренди, в якіх продано більше 50 телефонів
+SELECT product_id, sum(quantity) AS total FROM orders_to_products
+GROUP BY product_id
+HAVING sum(quantity) > 40
+ORDER BY total DESC;
