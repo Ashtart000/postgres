@@ -1,0 +1,79 @@
+ALTER TABLE orders ADD COLUMN status boolean; 
+
+UPDATE orders SET status = true WHERE id % 2 = 0;
+
+UPDATE orders SET status = false WHERE id % 2 != 0 RETURNING *;
+
+SELECT id, created_at, customer_id, status AS order_status
+FROM orders; ---- alias for attribute
+
+
+------------CASE
+---1 syntax----
+/*
+CASE
+    WHEN condition1 = true THEN result1
+    WHEN condition2 = true THEN result2
+    .....
+    ELSE result3
+END
+*/
+
+/* ЗАДАЧА: Вивести всі замовлення, там де статус "true" - написати "виконано"
+   а якщо false - написати "нове" */
+
+SELECT id, created_at, customer_id, status,
+    CASE 
+        WHEN status = true THEN 'done'
+        WHEN status = false THEN 'new'
+        ELSE 'other'
+    END AS order_status
+FROM orders
+ORDER BY id;
+
+
+/* OR
+SELECT id, created_at, customer_id, status,
+    CASE 
+        WHEN status = true OR status = false THEN 'done'
+        
+        ELSE 'other'
+    END AS order_status
+FROM orders
+ORDER BY id;
+*/
+
+
+
+------2 syntax------
+/*
+CASE condition
+    WHEN value1 THEN result1
+    WHEN value2 THEN result2
+    .........
+    ELSE default_result
+END
+*/
+
+/*
+ЗАДАЧА: Витягти місяць народження юзера і на його основі вивести, народився юзер восени
+, навесні, влітку чи взимку
+*/
+
+SELECT first_name, last_name, extract ('month' from age(birthday)),
+    CASE extract ('month' from age(birthday))
+        WHEN 01 THEN 'winter'
+        WHEN 02 THEN 'winter'
+        WHEN 03 THEN 'spring'
+        WHEN 04 THEN 'spring'
+        WHEN 05 THEN 'spring'
+        WHEN 06 THEN 'summer'
+        WHEN 07 THEN 'summer'
+        WHEN 08 THEN 'summer'
+        WHEN 09 THEN 'autumn'
+        WHEN 10 THEN 'autumn'
+        WHEN 11 THEN 'autumn'
+        WHEN 12 THEN 'winter'
+        ELSE 'other'
+    END
+FROM users;
