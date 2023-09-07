@@ -77,3 +77,60 @@ SELECT first_name, last_name, extract ('month' from age(birthday)),
         ELSE 'other'
     END
 FROM users;
+
+
+SELECT first_name, last_name, extract ('years' from age(birthday)) AS age,
+    CASE 
+        WHEN extract ('years' from age(birthday)) < 18 THEN 'is not adult'
+        WHEN extract ('years' from age(birthday)) >= 18 THEN 'is adult'
+        ELSE 'unknown'
+    END
+FROM users;
+
+
+SELECT brand, model, price,
+CASE
+WHEN price > 60000 THEN 'флагман'
+WHEN price BETWEEN 20000 AND 60000 THEN 'середній клас'
+WHEN price < 19999 THEN 'бюджетний'
+ELSE 'невідомо'
+END
+FROM products;
+
+
+SELECT u.id, first_name, last_name, email, count (o.id) AS "кількість замовлень", 
+CASE
+    WHEN count (o.id) >=3 THEN 'постійний клієнт'
+    WHEN count (o.id) BETWEEN 1 AND 2 THEN 'активний клієнт'
+    WHEN count (o.id) = 0 THEN 'новий клієнт'
+    ELSE 'невідомо'
+END AS "статус покупця"
+FROM users AS u LEFT JOIN orders AS o
+ON u.id = o.customer_id
+GROUP BY u.id
+ORDER BY count (o.id);
+
+
+INSERT INTO users (
+    first_name,
+    last_name,
+    email,
+    biography,
+    gender,
+    is_subscribe,
+    birthday,
+    foot_size,
+    height
+  )
+VALUES (
+    'Alice',
+    'Seleznyova',
+    'seleznyova@gmail.com',
+    'biography:text',
+    'female',
+    true,
+    '2005-12-14',
+    37,
+    1.55
+  );
+
