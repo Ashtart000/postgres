@@ -46,3 +46,50 @@ GROUP BY u.id
 SELECT * FROM users_with_sum
 ORDER BY sum DESC
 LIMIT 10;
+
+
+
+-- Materialized Views
+
+--Задача: написати матеріалізовану вьюху, яка буде рахувати кількість замовлень
+
+CREATE MATERIALIZED VIEW total_orders AS
+SELECT count(*) AS "загальна кількість замовлень" FROM orders;
+
+SELECT * FROM total_orders;
+
+---
+INSERT INTO orders (customer_id, status) VALUES
+(1, false);
+
+
+---Оновлення матеріалізованої вьюхи
+
+REFRESH MATERIALIZED VIEW total_orders;
+
+
+--Функція, яка оновлює вьюху при виклику
+
+CREATE FUNCTION refresh_mat_view()
+RETURNS void
+AS
+$$
+BEGIN
+    REFRESH MATERIALIZED VIEW total_orders;
+END;
+$$
+LANGUAGE plpgsql
+
+SELECT refresh_mat_view();
+
+
+-- Видалення матеріалізованої вьюхи
+
+DROP MATERIALIZED VIEW total_orders;
+
+--
+
+DROP FUNCTION refresh_materialized_view;
+
+
+
