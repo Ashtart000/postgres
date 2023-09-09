@@ -22,3 +22,27 @@ DROP VIEW users_orders_amount;
 --Витягти всі email юзерів, які мають тільки 1 замовлення
 SELECT * FROM users_orders_amount
 WHERE orders_amount = 1;
+
+
+--Створити представлення, яке зберігає замовлення з їхньою вартістю
+CREATE VIEW orders_with_price AS (
+    SELECT o.id, o.customer_id, sum(p.price * otp.quantity), o.status FROM 
+    orders AS o INNER JOIN orders_to_products AS otp
+    ON o.id = otp.order_id
+    INNER JOIN products AS p
+    ON otp.product_id = p.id
+    GROUP BY o.id
+);
+
+--На основі вьюхи orders_with_price
+--Вивести юзерів з сумою коштів, які вони витратили у нашому магазині
+CREATE VIEW users_with_sum AS (
+SELECT u.id, first_name, last_name, email, sum(owp.sum) FROM 
+users AS u JOIN orders_with_price AS owp
+ON u.id = owp.customer_id
+GROUP BY u.id
+);
+
+SELECT * FROM users_with_sum
+ORDER BY sum DESC
+LIMIT 10;

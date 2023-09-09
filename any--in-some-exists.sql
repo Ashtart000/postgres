@@ -61,7 +61,24 @@ WHERE p.id != ALL(SELECT product_id FROM orders_to_products);
 --- Знайти всі телефони, які купував юзер з id 23
 -- Не використовуючи JOINів, за допомогою виразів підзапитів
 
-SELECT * FROM users AS u 
-WHERE u.id IN (SELECT customer_id FROM orders AS o
-WHERE )
-;
+SELECT * FROM orders_to_products AS otp
+WHERE EXISTS 
+(SELECT * FROM orders AS o
+WHERE otp.order_id = o.id AND o.customer_id = 10);
+
+
+SELECT * FROM orders WHERE id IN (19, 20);
+SELECT * FROM orders_to_products WHERE order_id IN (19, 20);
+
+
+CREATE VIEW all_users_with_all_orders AS (
+SELECT u.id AS user_id, first_name, last_name, email, gender, o.id AS order_id, created_at, status, product_id, otp.quantity, brand, model, price FROM 
+users AS u JOIN orders AS o 
+ON u.id = o.customer_id
+JOIN orders_to_products AS otp
+ON o.id = otp.order_id
+JOIN products AS p
+ON otp.product_id = p.id);
+
+SELECT * FROM all_users_with_all_orders
+WHERE user_id = 10;
